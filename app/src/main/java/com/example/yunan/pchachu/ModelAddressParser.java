@@ -8,6 +8,9 @@ public class ModelAddressParser {
     private String mCity; //기초 시군구
     private String mTown; // 읍면동
 
+    ModelAddressParser(){
+    }
+
     ModelAddressParser(String address){
         parseAddress(address);
     }
@@ -15,21 +18,17 @@ public class ModelAddressParser {
     public void parseAddress(String address){
         if(address==null) return;
 
-        if(mAddress!=address){
-            mAddress = address;
-            mNation = null;
-            mMetropolice = null;
-            mCity = null;
-            mTown = null;
-        }
+        mAddress = address;
 
-        String[] mAddrs = mAddress.split("\\s");
-
+        String[] mAddrs = mAddress.split(" ");
         if(mAddrs.length>0) mNation = mAddrs[0];
         if(mAddrs.length>1) mMetropolice = mAddrs[1];
         if(mAddrs.length>2) mCity = mAddrs[2];
-        if(mAddrs.length>3) mTown = mAddrs[3];
-        if(mTown.contains("구") && mAddrs.length>4) mTown = mAddrs[4];
+        if(mAddrs.length>3) {
+            mTown = mAddrs[3];
+            if (mTown.contains("구")) mTown = null;
+        }
+        if(mAddrs.length>4) mTown = mAddrs[4];
 
     }
 
