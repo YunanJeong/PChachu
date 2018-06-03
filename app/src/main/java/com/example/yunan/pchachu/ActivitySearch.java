@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -23,9 +24,6 @@ import java.io.IOException;
 
 public class ActivitySearch extends AppCompatActivity {
     private Place mPlace;
-    private Button mSearchMinDateButton;
-    private Button mSearchMaxDateButton;
-
     private AppBarLayout mAppBarLayout;
     private FloatingActionButton mFab;
     private FloatingActionButton mFabBottom;
@@ -54,14 +52,17 @@ public class ActivitySearch extends AppCompatActivity {
             @Override
             public void onPlaceSelected(Place place) {
                 // Get info about the selected place.
-                //Log.i(TAG, "Place: " + place.getName());
-
-                /*String placeDetailsStr = place.getName() + "\n"
+                String placeDetailsStr = place.getName() + "\n"
                         + place.getId() + "\n"
                         + place.getLatLng().toString() + "\n"
                         + place.getAddress() + "\n"
                         + place.getAttributions();
-                txtPlaceDetails.setText(placeDetailsStr);*/
+                Log.i(">>", "Place: " + placeDetailsStr);
+
+                ModelAddressParser ap = new ModelAddressParser(place.getAddress().toString());
+                Log.i(">>", "Address: " + ap.getMetropolice() + "\n"
+                + ap.getTown()+"\n");
+
 
                 mPlace = place;
             }
@@ -69,7 +70,7 @@ public class ActivitySearch extends AppCompatActivity {
             @Override
             public void onError(Status status) {
                 // Handle the error.
-                //Log.i(TAG, "An error occurred: " + status);
+                Log.i("<<", "An error occurred: " + status);
             }
         });
 
@@ -143,7 +144,7 @@ public class ActivitySearch extends AppCompatActivity {
 
 
 
-    public class SearchTask extends AsyncTask<Void, Void, Cafe> {
+    public class SearchTask extends AsyncTask<Void, Void, ModelCafe> {
         private String mAddress;
         SearchTask(String address) {
             mAddress = address;
@@ -152,12 +153,12 @@ public class ActivitySearch extends AppCompatActivity {
 
 
         @Override
-        protected Cafe doInBackground(Void... params) {
+        protected ModelCafe doInBackground(Void... params) {
             //attempt authentication against a network service.
 
             //TODO: 쿼리 및 데이터 파싱
             /*
-            ModuleCommunication mc = new ModuleCommunication();
+            ModelCommunication mc = new ModelCommunication();
             String searchResult = mc.QUERY("/api/v1/trips", mAddress, mCheckIn, mCheckOut);
 
             Cafe cafe = new Cafe();
@@ -177,7 +178,7 @@ public class ActivitySearch extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(final Cafe cafe) {
+        protected void onPostExecute(final ModelCafe cafe) {
             mSearchTask = null;
             //TODO: 결과 출력 (ListView, RecyclerView 등을 이용)
             /*

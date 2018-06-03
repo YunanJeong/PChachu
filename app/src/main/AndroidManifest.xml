@@ -18,6 +18,9 @@
         </activity>
         <activity
             android:name=".ActivityMain" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCR1_QfP6YWOPi2K63hb0i0CKxzrIHCG2Y" />
         <activity
             android:name=".ActivitySearch"
             android:theme="@style/AppTheme.NoActionBar"/>
