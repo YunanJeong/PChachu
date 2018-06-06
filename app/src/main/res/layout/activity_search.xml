@@ -43,6 +43,15 @@
                 android:orientation="vertical"
                 android:weightSum="2">
 
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="@color/primary_text"
+                    android:text="⊙ Copyright(c)2018 Team.관찡네아이들 All rights reserved." />
+
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"

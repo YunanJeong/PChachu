@@ -118,66 +118,6 @@
                     android:textStyle="bold" />
 
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_marginLeft="5dp">
-
-                    <TextView
-                        android:id="@+id/detail_host_profile_school"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="5dp"
-                        android:background="@drawable/shape_chip_drawable"
-                        android:padding="10dp"
-                        android:text="School"
-                        android:textColor="@android:color/white"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:id="@+id/detail_host_profile_job"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="5dp"
-                        android:background="@drawable/shape_chip_drawable"
-                        android:padding="10dp"
-                        android:text="Job"
-                        android:textColor="@android:color/white"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:id="@+id/detail_host_profile_locale"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="5dp"
-                        android:background="@drawable/shape_chip_drawable"
-                        android:padding="10dp"
-                        android:text="Locale"
-                        android:textColor="@android:color/white"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:id="@+id/detail_host_profile_country"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="5dp"
-                        android:background="@drawable/shape_chip_drawable"
-                        android:padding="10dp"
-                        android:text="Country"
-                        android:textColor="@android:color/white"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/detail_recycle_menu"
                     android:layout_width="wrap_content"

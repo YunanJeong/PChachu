@@ -19,12 +19,12 @@ import java.util.HashMap;
 
 public class ModelRecyclerAdapterSearchContent extends RecyclerView.Adapter<ModelRecyclerAdapterSearchContent.ViewHolder>{
     Context context;
-    ModelCafe cafe;
+    ModelCafe mCafe;
 
     public ModelRecyclerAdapterSearchContent(Context context, Object obj) {
         this.context = context;
         if(obj instanceof ModelCafe){
-            cafe = (ModelCafe)obj;
+            mCafe = (ModelCafe)obj;
         }
     }
 
@@ -40,18 +40,19 @@ public class ModelRecyclerAdapterSearchContent extends RecyclerView.Adapter<Mode
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
         final HashMap<String,Object> temp;
+        String address;
 
-        temp = (HashMap<String,Object>)cafe.getTrips().get(position);
-        HashMap<String, Object> ownerTemp = (HashMap<String, Object>) temp.get("owner");
-        holder.titleView.setText(temp.get("address").toString());
-        holder.addressView.setText(ownerTemp.get("name").toString());
+        temp = (HashMap<String,Object>)mCafe.getCafes().get(position);
+        address = temp.get("pc_address1").toString() + temp.get("pc_address2").toString() + temp.get("pc_address3").toString();
+        holder.titleView.setText(temp.get("Pc_name").toString());
+        holder.addressView.setText(address);
 
         //card item selected
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(context, ActivityCafeDetail.class);
-                //Send selected item information to TripDetailActivity
+                //Send selected item information to ActivityCafeDetail
                 intent.putExtra("Cafe",temp);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
@@ -62,7 +63,7 @@ public class ModelRecyclerAdapterSearchContent extends RecyclerView.Adapter<Mode
 
     @Override
     public int getItemCount() {
-        return this.cafe.getTrips().size();
+        return this.mCafe.getCafes().size();
     }
     /** item layout 불러오기 **/
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -31,7 +31,7 @@ public class ModelRecyclerAdapterMenu extends RecyclerView.Adapter<ModelRecycler
     @Override
     public ModelRecyclerAdapterMenu.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //recycler view에 반복될 아이템 레이아웃 연결
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_content_search, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_content_menu, parent, false);
         return new ViewHolder(v);
     }
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -41,10 +41,10 @@ public class ModelRecyclerAdapterMenu extends RecyclerView.Adapter<ModelRecycler
 
         final HashMap<String,Object> temp;
 
-        temp = (HashMap<String,Object>)cafe.getTrips().get(position);
-        HashMap<String, Object> ownerTemp = (HashMap<String, Object>) temp.get("owner");
-        holder.titleView.setText(temp.get("address").toString());
-        holder.addressView.setText(ownerTemp.get("name").toString());
+        temp = (HashMap<String,Object>)cafe.getCafes().get(position);
+
+        holder.menuNameView.setText(temp.get("address").toString());
+
 
         //card item selected
         holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -62,14 +62,14 @@ public class ModelRecyclerAdapterMenu extends RecyclerView.Adapter<ModelRecycler
 
     @Override
     public int getItemCount() {
-        return this.cafe.getTrips().size();
+        return this.cafe.getCafes().size();
     }
     /** item layout 불러오기 **/
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         CardView cardView;
-        TextView titleView;
-        TextView addressView;
+        TextView menuNameView;
+        TextView menuPriceView;
 
 
 
@@ -77,8 +77,8 @@ public class ModelRecyclerAdapterMenu extends RecyclerView.Adapter<ModelRecycler
             super(v);
 
             cardView = (CardView) v.findViewById(R.id.card_view);
-            titleView = (TextView) cardView.findViewById(R.id.title_cafename);
-            addressView = (TextView) cardView.findViewById(R.id.cafe_address);
+            menuNameView = (TextView) cardView.findViewById(R.id.menu_name);
+            menuPriceView = (TextView) cardView.findViewById(R.id.menu_price);
 
 
         }

@@ -2,7 +2,6 @@ package com.example.yunan.pchachu;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -31,7 +30,7 @@ public class ModelRecyclerAdapterEvent extends RecyclerView.Adapter<ModelRecycle
     @Override
     public ModelRecyclerAdapterEvent.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //recycler view에 반복될 아이템 레이아웃 연결
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_content_search, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_content_event, parent, false);
         return new ViewHolder(v);
     }
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -41,23 +40,23 @@ public class ModelRecyclerAdapterEvent extends RecyclerView.Adapter<ModelRecycle
 
         final HashMap<String,Object> temp;
 
-        temp = (HashMap<String,Object>)cafe.getTrips().get(position);
+        temp = (HashMap<String,Object>)cafe.getCafes().get(position);
         HashMap<String, Object> ownerTemp = (HashMap<String, Object>) temp.get("owner");
-        holder.titleView.setText(temp.get("address").toString());
-        holder.addressView.setText(ownerTemp.get("name").toString());
+        holder.eventNameView.setText(temp.get("address").toString());
+        holder.eventPriceView.setText(ownerTemp.get("name").toString());
 
     }
 
     @Override
     public int getItemCount() {
-        return this.cafe.getTrips().size();
+        return this.cafe.getCafes().size();
     }
     /** item layout 불러오기 **/
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         CardView cardView;
-        TextView titleView;
-        TextView addressView;
+        TextView eventNameView;
+        TextView eventPriceView;
 
 
 
@@ -65,8 +64,8 @@ public class ModelRecyclerAdapterEvent extends RecyclerView.Adapter<ModelRecycle
             super(v);
 
             cardView = (CardView) v.findViewById(R.id.card_view);
-            titleView = (TextView) cardView.findViewById(R.id.title_cafename);
-            addressView = (TextView) cardView.findViewById(R.id.cafe_address);
+            eventNameView = (TextView) cardView.findViewById(R.id.event_name);
+            eventPriceView = (TextView) cardView.findViewById(R.id.event_reward);
 
 
         }

@@ -14,7 +14,7 @@ public class ActivityIntro extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
 
-        //2초 후 인트로 제거
+        //3초 후 인트로 제거
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
@@ -23,6 +23,6 @@ public class ActivityIntro extends Activity {
                 // 뒤로가기 했을경우 안나오도록 없애주기 >> finish!!
                 finish();
             }
-        }, 2000);
+        }, 3000);
     }
 }

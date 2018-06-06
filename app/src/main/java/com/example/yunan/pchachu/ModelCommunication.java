@@ -13,8 +13,8 @@ import java.net.URL;
  */
 public class ModelCommunication {
 
-    private final String mSocketAddr = "http://52.79.118.255:3000";
-    //AWS server url : http://
+    private final String mSocketAddr = "http://192.168.0.13:3000";
+    //Local server url : http://192.168.0.13:3000/food/get4?pc_id=2000
 
     public String getSocketAddr(){
         return mSocketAddr;
@@ -291,8 +291,12 @@ public class ModelCommunication {
     }
 
     public String QUERY(String url, String address, String checkIn, String checkOut){
-        String queryString = url + "?" + "address=" + address + "&" + "checkIn=" + checkIn + "&" + "checkOut=" + checkOut;
-        //ex : http://localhost:3000/api/v1/trips   ? address=수지구 &    check_in=2017-05-09  & check_out=2017-05-15
+        String queryString = url + "?" + "pc_address1=" + address + "&" + "pc_address2=" + checkIn + "&" + "pc_address3=" + checkOut;
+        return GET(queryString);
+    }
+
+    public String QUERYDetail(String url, String cafeId){
+        String queryString = url + "?" + "cafeId=" + cafeId;
         return GET(queryString);
     }
 

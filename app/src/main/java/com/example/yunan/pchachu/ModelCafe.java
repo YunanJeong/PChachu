@@ -10,15 +10,22 @@ import java.util.Map;
  */
 
 public class ModelCafe {
-    private String mAddress;
 
-    private Map<String,Object> trip = new HashMap<String,Object>();
-    private List<Map<String,Object>> trips = new ArrayList<Map<String,Object>>();
 
-    public Map<String,Object> getTrip(){
+    //private Map<String,Object> trip = new HashMap<String,Object>();
+    /*public Map<String,Object> getTrip(){
         return trip;
+    }*/
+
+    private List<Map<String,Object>> mCafes = null;
+
+
+    public void setCafes(List<Map<String,Object>> cafes){
+        mCafes = cafes;
     }
-    public List getTrips(){
-        return trips;
+    public List getCafes(){
+        return mCafes;
     }
+
+
 }

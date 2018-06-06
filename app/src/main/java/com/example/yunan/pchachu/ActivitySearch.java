@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
@@ -21,6 +22,8 @@ import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 public class ActivitySearch extends AppCompatActivity {
     private Place mPlace;
@@ -103,8 +106,12 @@ public class ActivitySearch extends AppCompatActivity {
                     return;
                 }
                 //검색 쿼리 날려서 리스트뷰에 출력하기 (Material Card 이용)
-                String city = mPlace.getName().toString();
-                mSearchTask = new SearchTask(city);
+                ModelAddressParser ap = new ModelAddressParser(mPlace.getAddress().toString());
+                String metropolice = ap.getMetropolice();
+                String city = ap.getCity();
+                String town = ap.getTown();
+
+                mSearchTask = new SearchTask(metropolice, city, town);
                 mSearchTask.execute((Void) null);
 
             }
@@ -135,9 +142,13 @@ public class ActivitySearch extends AppCompatActivity {
 
 
     public class SearchTask extends AsyncTask<Void, Void, ModelCafe> {
-        private String mAddress;
-        SearchTask(String address) {
-            mAddress = address;
+        private String mMetropolice;
+        private String mCity;
+        private String mTown;
+        SearchTask(String metropolice, String city, String town) {
+            mMetropolice = metropolice;
+            mCity = city;
+            mTown = town;
         }
 
 
@@ -146,31 +157,33 @@ public class ActivitySearch extends AppCompatActivity {
         protected ModelCafe doInBackground(Void... params) {
             //attempt authentication against a network service.
 
-            //TODO: 쿼리 및 데이터 파싱
-            /*
-            ModelCommunication mc = new ModelCommunication();
-            String searchResult = mc.QUERY("/api/v1/trips", mAddress, mCheckIn, mCheckOut);
+            ModelCafe modelCafe = new ModelCafe();
 
-            Cafe cafe = new Cafe();
+            //쿼리
+            ModelCommunication mc = new ModelCommunication();
+            String searchResult = mc.QUERY("/food/get1", mMetropolice, mCity, mTown);
+
+            //Response 데이터 파싱
+            List<Map<String,Object>> cafes=null;
             ObjectMapper mapper = new ObjectMapper();
             try {
-                cafe = mapper.readValue(searchResult, Cafe.class);
+                cafes = mapper.readValue(searchResult, new TypeReference<List<Map<String,Object>>>(){});
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            return cafe;
-            */
+            modelCafe.setCafes(cafes);
 
-            return null;
+            return modelCafe;
+
         }
 
         @Override
-        protected void onPostExecute(final ModelCafe cafe) {
+        protected void onPostExecute(final ModelCafe modelCafe) {
             mSearchTask = null;
-            //TODO: 결과 출력 (ListView, RecyclerView 등을 이용)
 
-            ModelRecyclerAdapterSearchContent adapter = new ModelRecyclerAdapterSearchContent(getApplicationContext(), cafe);
+            //결과 출력 (ListView, RecyclerView 등을 이용)
+            ModelRecyclerAdapterSearchContent adapter = new ModelRecyclerAdapterSearchContent(getApplicationContext(), modelCafe);
             mRecyclerView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
 
