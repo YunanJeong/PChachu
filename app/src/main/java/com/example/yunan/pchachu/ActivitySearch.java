@@ -126,19 +126,9 @@ public class ActivitySearch extends AppCompatActivity {
         mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         mRecyclerView = (RecyclerView) resultView.findViewById(R.id.recycler_view);
-
-        //RecyclerView divider height control // item(cardview)에 margin 넣으면 필요없음.
-        /*mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-            private final int dividerHeight = 0;
-            @Override
-            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                super.getItemOffsets(outRect, view, parent, state);
-                outRect.top = dividerHeight;
-            }
-        });*/
-
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
+
 
     }
 
@@ -172,20 +162,18 @@ public class ActivitySearch extends AppCompatActivity {
             return cafe;
             */
 
-
             return null;
-
         }
 
         @Override
         protected void onPostExecute(final ModelCafe cafe) {
             mSearchTask = null;
             //TODO: 결과 출력 (ListView, RecyclerView 등을 이용)
-            /*
-            RecyclerAdapter adapter = new RecyclerAdapter(getApplicationContext(), cafe);
+
+            ModelRecyclerAdapterSearchContent adapter = new ModelRecyclerAdapterSearchContent(getApplicationContext(), cafe);
             mRecyclerView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
-            */
+
         }
 
         @Override
