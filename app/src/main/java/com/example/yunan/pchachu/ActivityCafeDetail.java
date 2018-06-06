@@ -30,6 +30,8 @@ public class ActivityCafeDetail extends AppCompatActivity {
     private SearchDetailTask mSearchTask;
     private RecyclerView mEventRecyclerView;
     private RecyclerView mMenuRecyclerView;
+    private TextView mSeatsView;
+    private TextView mSpecView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,40 +39,36 @@ public class ActivityCafeDetail extends AppCompatActivity {
 
         final HashMap<String,Object> cafeTemp = (HashMap<String,Object>)  getIntent().getSerializableExtra("Cafe");
 
-        setTitle(cafeTemp.get("address").toString());
+        setTitle(cafeTemp.get("Pc_name").toString());
 
         TextView metroTextView = (TextView) findViewById(R.id.detail_address_metropolice);
         TextView cityTextView = (TextView) findViewById(R.id.detail_address_city);
         TextView townTextView = (TextView) findViewById(R.id.detail_address_town);
         TextView extraTextView = (TextView) findViewById(R.id.detail_address_extra);
-        metroTextView.setText(cafeTemp.get("pc_address1").toString());
-        cityTextView.setText(cafeTemp.get("pc_address2").toString());
-        townTextView.setText(cafeTemp.get("pc_address3").toString());
-        extraTextView.setText(cafeTemp.get("pc_address4").toString());
+        metroTextView.setText(cafeTemp.get("Pc_address1").toString());
+        cityTextView.setText(cafeTemp.get("Pc_address2").toString());
+        townTextView.setText(cafeTemp.get("Pc_address3").toString());
+        extraTextView.setText(cafeTemp.get("Pc_address4").toString());
 
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
+        LinearLayoutManager linearLayoutManager_menu = new LinearLayoutManager(getApplicationContext());
+        linearLayoutManager_menu.setOrientation(LinearLayoutManager.VERTICAL);
         mMenuRecyclerView = (RecyclerView) findViewById(R.id.detail_recycle_menu) ;
         mMenuRecyclerView.setHasFixedSize(true);
-        mMenuRecyclerView.setLayoutManager(linearLayoutManager);
+        mMenuRecyclerView.setLayoutManager(linearLayoutManager_menu);
 
 
+        LinearLayoutManager linearLayoutManager_event = new LinearLayoutManager(getApplicationContext());
+        linearLayoutManager_event.setOrientation(LinearLayoutManager.VERTICAL);
         mEventRecyclerView = (RecyclerView) findViewById(R.id.detail_recycle_event) ;
         mEventRecyclerView.setHasFixedSize(true);
-        mEventRecyclerView.setLayoutManager(linearLayoutManager);
+        mEventRecyclerView.setLayoutManager(linearLayoutManager_event);
 
 
-        mSearchTask = new SearchDetailTask(cafeTemp.get("pc_id").toString());
+        mSearchTask = new SearchDetailTask(cafeTemp.get("Pc_id").toString());
         mSearchTask.execute((Void) null);
 
-     /*   mLinearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        mRecyclerView = (RecyclerView) resultView.findViewById(R.id.recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(mLinearLayoutManager);*/
     }
 
     public class SearchDetailTask extends AsyncTask<Void, Void, ModelCafe> {
@@ -87,13 +85,14 @@ public class ActivityCafeDetail extends AppCompatActivity {
             //attempt authentication against a network service.
             ModelCafe modelCafe = new ModelCafe();
             ModelCommunication mc = new ModelCommunication();
+            ObjectMapper mapper = new ObjectMapper();
 
             //cafe detail 쿼리
-            String searchResult = mc.QUERYDetail("/api/v1/trips", mCafeId);
+            String searchResult = mc.QUERYDetail("/food/get2", mCafeId);
 
             //cafe detail Response 데이터 파싱
             List<Map<String,Object>> cafes=null;
-            ObjectMapper mapper = new ObjectMapper();
+
             try {
                 cafes = mapper.readValue(searchResult, new TypeReference<List<Map<String,Object>>>(){});
             } catch (IOException e) {
@@ -101,11 +100,31 @@ public class ActivityCafeDetail extends AppCompatActivity {
             }
 
 
+            //foodmenu 쿼리
+            String menuResult = mc.QUERYDetail("/food/get4", mCafeId);
 
-            //modelCafe.setFoods();
-            //modelCafe.setEvents();
+            //menu Response 데이터 파싱
+            List<Map<String,Object>> foods=null;
+            try {
+                foods = mapper.readValue(menuResult, new TypeReference<List<Map<String,Object>>>(){});
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            //foodmenu 쿼리
+            String eventResult = mc.QUERYDetail("/food/get3", mCafeId);
+
+            //cafe detail Response 데이터 파싱
+            List<Map<String,Object>> events=null;
+            try {
+                events = mapper.readValue(eventResult, new TypeReference<List<Map<String,Object>>>(){});
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             modelCafe.setCafes(cafes);
-
+            modelCafe.setFoods(foods);
+            modelCafe.setEvents(events);
 
 
             return modelCafe;
@@ -115,6 +134,12 @@ public class ActivityCafeDetail extends AppCompatActivity {
         @Override
         protected void onPostExecute(final ModelCafe modelCafe) {
             mSearchTask = null;
+            mSeatsView =  (TextView) findViewById(R.id.detail_facility_seats);
+            mSpecView =  (TextView) findViewById(R.id.detail_facility_spec);
+
+            //결과출력
+            mSeatsView.setText(modelCafe.getCafes().get(0).get("Pc_seat").toString()+"개 좌석");
+            mSpecView.setText(modelCafe.getCafes().get(0).get("Pc_spec").toString());
 
             //결과 출력 (ListView, RecyclerView 등을 이용)
             ModelRecyclerAdapterMenu adapterMenu = new ModelRecyclerAdapterMenu(getApplicationContext(), modelCafe);

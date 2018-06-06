@@ -162,12 +162,13 @@ public class ActivitySearch extends AppCompatActivity {
             //쿼리
             ModelCommunication mc = new ModelCommunication();
             String searchResult = mc.QUERY("/food/get1", mMetropolice, mCity, mTown);
-
+            Log.e("!!!!!!!!!!>>>>",searchResult);
             //Response 데이터 파싱
             List<Map<String,Object>> cafes=null;
             ObjectMapper mapper = new ObjectMapper();
             try {
                 cafes = mapper.readValue(searchResult, new TypeReference<List<Map<String,Object>>>(){});
+                //Log.e(">>>>",cafes.get(0).get("Pc_cafe").toString());
             } catch (IOException e) {
                 e.printStackTrace();
             }

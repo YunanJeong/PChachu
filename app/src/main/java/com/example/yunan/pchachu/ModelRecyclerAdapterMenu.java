@@ -41,28 +41,17 @@ public class ModelRecyclerAdapterMenu extends RecyclerView.Adapter<ModelRecycler
 
         final HashMap<String,Object> temp;
 
-        temp = (HashMap<String,Object>)cafe.getCafes().get(position);
+        temp = (HashMap<String,Object>)cafe.getFoods().get(position);
 
-        holder.menuNameView.setText(temp.get("address").toString());
+        holder.menuNameView.setText(temp.get("Pc_food_name").toString());
+        holder.menuPriceView.setText(temp.get("Pc_food_money").toString());
 
 
-        //card item selected
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(context, ActivityCafeDetail.class);
-                //Send selected item information to TripDetailActivity
-                intent.putExtra("Cafe",temp);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-
-            }
-        });
     }
 
     @Override
     public int getItemCount() {
-        return this.cafe.getCafes().size();
+        return this.cafe.getFoods().size();
     }
     /** item layout 불러오기 **/
     public class ViewHolder extends RecyclerView.ViewHolder {

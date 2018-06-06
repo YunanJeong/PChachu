@@ -296,7 +296,7 @@ public class ModelCommunication {
     }
 
     public String QUERYDetail(String url, String cafeId){
-        String queryString = url + "?" + "cafeId=" + cafeId;
+        String queryString = url + "?" + "pc_id=" + cafeId;
         return GET(queryString);
     }
 

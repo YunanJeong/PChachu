@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,8 +43,9 @@ public class ModelRecyclerAdapterSearchContent extends RecyclerView.Adapter<Mode
         final HashMap<String,Object> temp;
         String address;
 
-        temp = (HashMap<String,Object>)mCafe.getCafes().get(position);
-        address = temp.get("pc_address1").toString() + temp.get("pc_address2").toString() + temp.get("pc_address3").toString();
+        temp = (HashMap<String,Object>) (mCafe.getCafes().get(position));
+
+        address = temp.get("Pc_address1").toString() + " " + temp.get("Pc_address2").toString() +" "+ temp.get("Pc_address3").toString();
         holder.titleView.setText(temp.get("Pc_name").toString());
         holder.addressView.setText(address);
 

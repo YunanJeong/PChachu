@@ -40,16 +40,16 @@ public class ModelRecyclerAdapterEvent extends RecyclerView.Adapter<ModelRecycle
 
         final HashMap<String,Object> temp;
 
-        temp = (HashMap<String,Object>)cafe.getCafes().get(position);
-        HashMap<String, Object> ownerTemp = (HashMap<String, Object>) temp.get("owner");
-        holder.eventNameView.setText(temp.get("address").toString());
-        holder.eventPriceView.setText(ownerTemp.get("name").toString());
+        temp = (HashMap<String,Object>)cafe.getEvents().get(position);
+
+        holder.eventNameView.setText(temp.get("Pc_event_name").toString());
+        holder.eventPriceView.setText(temp.get("Pc_event_award").toString());
 
     }
 
     @Override
     public int getItemCount() {
-        return this.cafe.getCafes().size();
+        return this.cafe.getEvents().size();
     }
     /** item layout 불러오기 **/
     public class ViewHolder extends RecyclerView.ViewHolder {

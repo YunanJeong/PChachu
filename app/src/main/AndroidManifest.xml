@@ -24,6 +24,8 @@
         <activity
             android:name=".ActivitySearch"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".ActivityCafeDetail"/>
     </application>
 
 </manifest>
